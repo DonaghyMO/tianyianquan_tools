@@ -23,6 +23,7 @@ public class ToolServiceImpl implements ToolService {
 
     @Override
     public ResultBean execute(MyExecutor executor) {
+        Logger logger = (Logger) org.apache.log4j.Logger.getLogger(getClass());
         Tool tool = new Tool(executor);
         // 异步执行
         if (executor.getIs_asynchronous() == AsyncFlag.isAsynchoronous) {
@@ -36,18 +37,23 @@ public class ToolServiceImpl implements ToolService {
                     System.out.println("ttttt");
                     executeDao.save(resultBean);
                 });
+                logger.info("异步执行开始:"+executor.getCommand());
                 return new ResultBean("异步执行，请查看日志查看执行结果", executor.getCommand(), Code.SYNC_EXE_OK);
             } catch (NullPointerException e){
                 Logger LOGGER = LogManager.getLogger(ToolServiceImpl.class);
                 LOGGER.info("hallo\n\n\n");
-
+                logger.error("异步执行失败"+executor.getCommand());
                 return new ResultBean("异步执行失败", executor.getCommand(), Code.SYNC_EXE_ERR);
             }
         }
         // 同步执行，soar前端会阻塞
         else{
             ExeSysResBean res = ExecSysCommand.execute(executor.getCommand());
+            logger.info("同步执行开始:"+executor.getCommand());
             String data = res.getOutput();
+            if (res.getStatus()!= Code.EXE_OK){
+                logger.error("同步执行失败:"+executor.getCommand()+res.getOutput());
+            }
             return new ResultBean(data,executor.getCommand(),res.getStatus());
         }
     }
