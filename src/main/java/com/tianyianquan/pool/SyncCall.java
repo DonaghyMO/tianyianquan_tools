@@ -1,30 +1,19 @@
 package com.tianyianquan.pool;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class SyncCall {
-    private int poolSize;
-    private ExecutorService executor;
-    public ExecutorService getExecutor() {
-        return executor;
-    }
-    public SyncCall(int poolSize) {
-        this.poolSize = poolSize;
-        this.executor = Executors.newFixedThreadPool(this.poolSize);
+    //饿汉单例
+    // 线程池默认大小
+    private static final int poolSize=20;
+    //TODO:核心线程数，和最大线程数
+    private static ExecutorService caller = Executors.newFixedThreadPool(poolSize);
+
+    private SyncCall(){
     }
 
-    //执行，适用于没有返回值
-    public void myExecute(Runnable runnable){
-        this.executor.execute(runnable);
+    public static ExecutorService getCaller(){
+        return caller;
     }
-
-    //执行，使用于有返回值
-    public String mySubmit(Callable callable){
-        return this.executor.submit(callable).toString();
-    }
-
 
 }

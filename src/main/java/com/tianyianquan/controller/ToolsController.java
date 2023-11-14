@@ -1,13 +1,18 @@
 package com.tianyianquan.controller;
 
+import com.tianyianquan.bean.RespBean;
 import com.tianyianquan.domain.MyExecutor;
-import com.tianyianquan.service.ToolService;
+import com.tianyianquan.bean.ResultBean;
 import com.tianyianquan.service.impl.ToolServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tools")
 public class ToolsController {
+    @Autowired
+    private ToolServiceImpl toolService;
+
     @GetMapping
     public String getAll(){
         return "all tools";
@@ -21,17 +26,9 @@ public class ToolsController {
         return "nmap使用说明";
     }
     @PostMapping("/nmap")
-    public Result execute(@RequestBody MyExecutor executor){
-        ToolService toolServiceImpl = new ToolServiceImpl();
-
-        String msg = new String();
-        String out = new String();
-        Boolean flag = false;
-        Object[] objects = toolServiceImpl.execute(executor);
-        msg = (String)objects[0];
-        out = (String)objects[1];
-        flag = (Boolean) objects[2];
-
-        return new Result(1,out,msg);
+    public RespBean execute(@RequestBody MyExecutor executor){
+        ResultBean res = toolService.execute(executor);
+        return new RespBean(res.getData(),"",res.getStatus());
     }
+
 }
