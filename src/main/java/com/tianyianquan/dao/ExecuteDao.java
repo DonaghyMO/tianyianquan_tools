@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 
-@Repository
 @Mapper
 public interface ExecuteDao{
     @Insert("insert into tbl_result (data,command,status) values(#{data},#{command},#{status})")

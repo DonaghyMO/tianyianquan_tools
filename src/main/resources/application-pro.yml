@@ -1,5 +1,4 @@
 spring:
-  profiles: pro
   datasource:
     name: test
     url: jdbc:mysql://mysqldb:3306/tianyianquan?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
@@ -7,6 +6,9 @@ spring:
     password: 1998
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  config:
+    activate:
+      on-profile:
 server:
   port: 8080

@@ -23,7 +23,7 @@ public class ToolServiceImpl implements ToolService {
 
     @Override
     public ResultBean execute(MyExecutor executor) {
-        Logger logger = (Logger) org.apache.log4j.Logger.getLogger(getClass());
+        final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(getClass());
         Tool tool = new Tool(executor);
         // 异步执行
         if (executor.getIs_asynchronous() == AsyncFlag.isAsynchoronous) {
@@ -34,7 +34,6 @@ public class ToolServiceImpl implements ToolService {
                     ExeSysResBean res;
                     res = ExecSysCommand.execute(tool.getCommand());
                     ResultBean resultBean = new ResultBean(res.getOutput(),tool.getCommand(),res.getStatus());
-                    System.out.println("ttttt");
                     executeDao.save(resultBean);
                 });
                 logger.info("异步执行开始:"+executor.getCommand());
