@@ -2,13 +2,13 @@ package com.tianyianquan.tools;
 
 import com.tianyianquan.entity.MyExecutor;
 
-public class Nmap extends Tool {
-
+public class Nuclei extends Tool{
     @Override
     public String toString() {
-        return "nmap";
+        return "nuclei";
     }
-    public Nmap(MyExecutor myExecutor) {
+    public Nuclei(MyExecutor myExecutor) {
         super(myExecutor);
     }
 }
+

@@ -12,15 +12,16 @@ public class ExecSysCommand {
     private static final Logger logger = Logger.getLogger(ExecSysCommand.class);
     public static ExeSysResBean execute(String command){
         try{
-            Process process = Runtime.getRuntime().exec(command);
+            Process process = Runtime.getRuntime().exec(new String[]{"bash","-l","-c",command});
+            int exitCode = process.waitFor();
             //获取命令执行结果
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader reader = new BufferedReader(exitCode==0?new InputStreamReader(process.getInputStream()):new InputStreamReader(process.getErrorStream()));
             StringBuilder lines = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
                 lines.append(line).append("\n");
             }
-            int exitCode = process.waitFor();
+
 
             ExeSysResBean res;
 
@@ -28,6 +29,7 @@ public class ExecSysCommand {
                 res = new ExeSysResBean(lines.toString(), Code.EXE_OK);
                 logger.info("执行系统命令"+command+"成功！");
             } else {
+
                 res = new ExeSysResBean(lines.toString(), Code.EXE_ERR);
                 logger.error("执行系统命令"+command+"失败！"+lines);
             }

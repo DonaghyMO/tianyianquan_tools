@@ -19,9 +19,7 @@ services:
   tianyianquan:
     container_name: tianyianquan
     #构建指定目录下的Dockerfile
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: d01a371942a39f00f446be8eeb25e19ac3256c695c71132a74f52620ce39dd20
     depends_on:
       - mysqldb
     expose:

@@ -1,3 +1,4 @@
 spring:
   profiles:
     active: @profiles.active@
+#    active: dev

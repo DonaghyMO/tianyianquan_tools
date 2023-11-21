@@ -1,9 +1,8 @@
-package com.tianyianquan.bean;
+package com.tianyianquan.domain;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
-public class ResultBean {
+public class ExecuteDomain {
     private Integer id;
     // 执行结果
     private Object data;
@@ -53,10 +52,10 @@ public class ResultBean {
         this.command = command;
     }
 
-    public ResultBean() {
+    public ExecuteDomain() {
     }
 
-    public ResultBean(Object data, String command, int status) {
+    public ExecuteDomain(Object data, String command, int status) {
         this.data = data;
         this.command = command;
         this.status = status;

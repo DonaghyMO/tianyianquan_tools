@@ -1,4 +1,4 @@
-package com.tianyianquan.domain;
+package com.tianyianquan.entity;
 
 public class MyExecutor {
     private String tool;
