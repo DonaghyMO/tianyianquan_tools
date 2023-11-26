@@ -1,8 +1,11 @@
 version: '3.8'
 services:
-  mysqldb:
-    container_name: mysqldb
-    image: mysql:8.1
+  tianyianquan_mysql:
+    container_name: tianyianquan_mysql
+#    image: mysql:5.7
+    build:
+      context: .
+      dockerfile: Dockerfile_mysql
     command: --default-authentication-plugin=mysql_native_password
     expose:
       - 3306
@@ -11,17 +14,20 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "1998"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init_sql:/docker-entrypoint-initdb.d
+
     restart: always
     networks:
       - test_network
   #SpringBoot项目服务
   tianyianquan:
-    container_name: tianyianquan
+    container_name: tianyianquan_web
     #构建指定目录下的Dockerfile
-    image: d01a371942a39f00f446be8eeb25e19ac3256c695c71132a74f52620ce39dd20
+    build:
+      context: .
+      dockerfile: Dockerfile
     depends_on:
-      - mysqldb
+      - tianyianquan_mysql
     expose:
       - 8080
     ports:

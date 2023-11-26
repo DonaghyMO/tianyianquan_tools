@@ -1,7 +1,7 @@
 spring:
   datasource:
     name: test
-    url: jdbc:mysql://mysqldb:3306/tianyianquan?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    url: jdbc:mysql://tianyianquan_mysql:3306/tianyianquan?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
     username: root
     password: 1998
     # 使用druid数据源

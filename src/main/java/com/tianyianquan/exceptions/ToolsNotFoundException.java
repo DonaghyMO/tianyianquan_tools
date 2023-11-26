@@ -1,4 +1,4 @@
-package com.tianyianquan.Exceptions;
+package com.tianyianquan.exceptions;
 
 public class ToolsNotFoundException extends ClassNotFoundException{
     public ToolsNotFoundException(String s) {

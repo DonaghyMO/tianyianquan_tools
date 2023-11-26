@@ -1,6 +1,6 @@
 package com.tianyianquan.service.impl;
 
-import com.tianyianquan.Exceptions.ToolsNotFoundException;
+import com.tianyianquan.exceptions.ToolsNotFoundException;
 import com.tianyianquan.bean.Code;
 import com.tianyianquan.domain.ExecuteDomain;
 import com.tianyianquan.dao.ExecuteDao;
@@ -37,14 +37,15 @@ public class ToolsServiceImpl implements ToolsService {
         if (executor.getIs_asynchronous() == this.isAsynchoronous) {
             //创建线程池
             try {
+                logger.info("异步执行开始:"+executor.getCommand());
                 ExecutorService syncCall = SyncCall.getCaller();
                 syncCall.execute(() -> {
                     ExeSysResBean res;
                     res = tool.execute();
                     ExecuteDomain executeDomain = new ExecuteDomain(res.getOutput(),tool.getCommand(),res.getStatus());
                     executeDao.save(executeDomain);
+                    //TODO:这里加上向soar发消息，发送执行结果
                 });
-                logger.info("异步执行开始:"+executor.getCommand());
                 return new ExecuteDomain("异步执行，请查看日志查看执行结果", executor.getCommand(), Code.SYNC_EXE_OK);
             } catch (NullPointerException e){
                 Logger LOGGER = LogManager.getLogger(ToolsServiceImpl.class);
@@ -55,8 +56,8 @@ public class ToolsServiceImpl implements ToolsService {
         }
         // 同步执行，soar前端会阻塞
         else{
-            ExeSysResBean res = tool.execute();
             logger.info("同步执行开始:"+executor.getCommand());
+            ExeSysResBean res = tool.execute();
             String data = res.getOutput();
             if (res.getStatus()!= Code.EXE_OK){
                 logger.error("同步执行失败:"+executor.getCommand()+res.getOutput());
