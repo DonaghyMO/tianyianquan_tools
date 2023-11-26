@@ -21,7 +21,7 @@ public class POCbomber extends Tool {
     }
     @Override
     public ExeSysResBean execute(){
-        String command = getCommand().replace(this.getToolName(),"python3 /root/mo/POC-bomber/pocbomber.py");
+        String command = getCommand().replace(this.getToolName(),"python3 /python_tools/POC-bomber/pocbomber.py");
         return ExecSysCommand.execute(command);
     }
 

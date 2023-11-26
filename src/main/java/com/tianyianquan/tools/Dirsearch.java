@@ -20,7 +20,7 @@ public class Dirsearch extends Tool{
 
     @Override
     public ExeSysResBean execute(){
-        String command = getCommand().replace(this.getToolName(),"python3 /root/mo/dirsearch/dirsearch.py");
+        String command = getCommand().replace(this.getToolName(),"python3 /python_tools/dirsearch/dirsearch.py");
         return ExecSysCommand.execute(command);
     }
 }
