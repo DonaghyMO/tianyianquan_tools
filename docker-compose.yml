@@ -11,11 +11,10 @@ services:
       - 3306
     ports:
       - 3306:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: "1998"
     volumes:
       - ./init_sql:/docker-entrypoint-initdb.d
-
+    environment:
+      MYSQL_ROOT_PASSWORD: "1998"
     restart: always
     networks:
       - test_network

@@ -11,6 +11,7 @@ import com.tianyianquan.tools.*;
 import com.tianyianquan.service.ToolsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,13 @@ import java.util.concurrent.ExecutorService;
 public class ToolsServiceImpl implements ToolsService {
     @Autowired
     private ExecuteDao executeDao;
+    org.slf4j.Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public ExecuteDomain execute(MyExecutor executor) throws ToolsNotFoundException {
-        final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(getClass());
         if (!Tool.my_tools.contains(executor.getTool())){
             logger.info(executor.getTool());
-            logger.info(Tool.my_tools);
+            logger.info(String.valueOf(Tool.my_tools));
 
             throw new ToolsNotFoundException(executor.getTool()+"工具暂不支持");
         }
