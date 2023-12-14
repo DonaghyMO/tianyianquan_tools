@@ -1,6 +1,9 @@
 HELP.md
 logs
 target/
+data/
+python_projects/
+scripts/
 software/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

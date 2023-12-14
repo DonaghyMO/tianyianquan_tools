@@ -44,6 +44,7 @@ public class Tool {
                 break;
             default:
                 tool = new Tool(executor);
+                break;
         }
         return tool;
     }

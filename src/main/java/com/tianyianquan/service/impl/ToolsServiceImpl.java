@@ -24,12 +24,12 @@ public class ToolsServiceImpl implements ToolsService {
 
     @Override
     public ExecuteDomain execute(MyExecutor executor) throws ToolsNotFoundException {
-        if (!Tool.my_tools.contains(executor.getTool())){
-            logger.info(executor.getTool());
-            logger.info(String.valueOf(Tool.my_tools));
-
-            throw new ToolsNotFoundException(executor.getTool()+"工具暂不支持");
-        }
+//        if (!Tool.my_tools.contains(executor.getTool())){
+//            logger.info(executor.getTool());
+//            logger.info(String.valueOf(Tool.my_tools));
+//
+//            throw new ToolsNotFoundException(executor.getTool()+"工具暂不支持");
+//        }
 
         // 静态方法，通过工具类创建工具对象
         Tool tool = Tool.getTools(executor);
