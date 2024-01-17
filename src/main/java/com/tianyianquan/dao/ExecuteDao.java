@@ -1,6 +1,7 @@
 package com.tianyianquan.dao;
 
 import com.tianyianquan.domain.ExecuteDomain;
+import com.tianyianquan.domain.UserDomain;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
