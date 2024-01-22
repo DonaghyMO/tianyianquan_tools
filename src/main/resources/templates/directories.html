@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件夹</title>
+</head>
+<body>
+<ul>
+    <li th:each="dir : ${directories}">
+        <a th:href="@{'/admin/files?file_id=' + ${dir.fileName}}" th:text="${dir.fileName}"></a>
+    </li>
+</ul>
+</body>
+</html>

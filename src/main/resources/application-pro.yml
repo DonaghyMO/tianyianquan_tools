@@ -21,8 +21,16 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+    session:
+      #      超时时间是一天
+      timeout: 86400
   ssl:
     key-store: classpath:keystore.p12
     key-store-password: hL7&n9oP2#sQ5$uI8%mZ
     key-store-type: PKCS12
     key-alias: tianyianquan
+
+
+logging:
+  pattern:
+    console: "%d{MM-yyyy-dd HH:mm:ss} [%thread] %logger{20} %-5level ===> %msg%n"
