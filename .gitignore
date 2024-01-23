@@ -5,6 +5,7 @@ data/
 python_projects/
 scripts/
 software/
+files/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -37,4 +38,3 @@ build/
 
 ### VS Code ###
 .vscode/
-./files

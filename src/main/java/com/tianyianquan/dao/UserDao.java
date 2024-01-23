@@ -1,6 +1,6 @@
 package com.tianyianquan.dao;
 
-import com.tianyianquan.domain.UserDomain;
+import com.tianyianquan.model.UserDomain;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 @Mapper

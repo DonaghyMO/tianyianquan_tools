@@ -1,6 +1,6 @@
 package com.tianyianquan.tools;
 
-import com.tianyianquan.entity.MyExecutor;
+import com.tianyianquan.dto.ToolExecuteParam;
 
 public class Afrog extends Tool {
 
@@ -9,7 +9,7 @@ public class Afrog extends Tool {
         return "afrog";
 
     }
-    public Afrog(MyExecutor myExecutor) {
+    public Afrog(ToolExecuteParam myExecutor) {
         super(myExecutor);
     }
 }
