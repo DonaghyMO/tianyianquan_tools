@@ -1,8 +1,9 @@
 package com.tianyianquan.tools;
 
-import com.tianyianquan.bean.ExeSysResBean;
-import com.tianyianquan.entity.MyExecutor;
+import com.tianyianquan.dto.ToolExecuteParam;
 import com.tianyianquan.utils.ExecSysCommand;
+
+import java.util.Map;
 
 public class Dirsearch extends Tool{
     @Override
@@ -10,7 +11,7 @@ public class Dirsearch extends Tool{
         return "dirsearch";
     }
 
-    public Dirsearch(MyExecutor myExecutor) {
+    public Dirsearch(ToolExecuteParam myExecutor) {
         super(myExecutor);
     }
 
@@ -19,7 +20,7 @@ public class Dirsearch extends Tool{
     }
 
     @Override
-    public ExeSysResBean execute(){
+    public Map<String,Object> execute(){
         String command = getCommand().replace(this.getToolName(),"python3 /python_tools/dirsearch/dirsearch.py");
         return ExecSysCommand.execute(command);
     }

@@ -13,7 +13,8 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
         // 拦截运营模块所有接口请求
         registry.addInterceptor(authenticationInterceptor())
                 .addPathPatterns("/tools/**");
-            registry.addInterceptor(authInterceptor()).addPathPatterns("/admin/**").excludePathPatterns("/admin/logging");
+        registry.addInterceptor(authInterceptor()).addPathPatterns("/admin/**").excludePathPatterns("/admin/logging");
+        registry.addInterceptor(authInterceptor()).addPathPatterns("/").excludePathPatterns("/admin/logging");
     }
 
     @Bean

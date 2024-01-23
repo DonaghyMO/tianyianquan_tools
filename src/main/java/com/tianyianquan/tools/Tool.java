@@ -1,12 +1,11 @@
 package com.tianyianquan.tools;
 
-import com.tianyianquan.bean.ExeSysResBean;
-import com.tianyianquan.entity.MyExecutor;
+import com.tianyianquan.dto.ToolExecuteParam;
 import com.tianyianquan.utils.ExecSysCommand;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class Tool {
     private final String toolName;
@@ -15,13 +14,13 @@ public class Tool {
 
     public static final List<String> my_tools = Arrays.asList("nuclei","nmap","xray","afrog","POC-bomber","dirsearch");
 
-    public Tool(MyExecutor myExecutor){
+    public Tool(ToolExecuteParam myExecutor){
         this.command = myExecutor.getCommand();
         this.toolName = myExecutor.getTool();
-        this.is_asynchronous = myExecutor.getIs_asynchronous();
+        this.is_asynchronous = myExecutor.getIsAsynchronous();
     }
 
-    public static Tool getTools(MyExecutor executor){
+    public static Tool getTools(ToolExecuteParam executor){
         Tool tool;
         switch (executor.getTool()){
             case "nuclei":
@@ -49,7 +48,7 @@ public class Tool {
         return tool;
     }
 
-    public ExeSysResBean execute(){
+    public Map<String, Object> execute(){
         return ExecSysCommand.execute(getCommand());
     }
 

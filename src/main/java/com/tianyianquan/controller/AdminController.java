@@ -3,7 +3,7 @@ package com.tianyianquan.controller;
 import com.tianyianquan.dao.UserDao;
 import com.tianyianquan.exceptions.IllegalRequestException;
 import org.springframework.core.io.Resource;
-import com.tianyianquan.domain.UserDomain;
+import com.tianyianquan.model.UserDomain;
 import com.tianyianquan.utils.AesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,15 +27,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
-@RequestMapping(value="admin",produces = "application/json;charset=UTF-8")
-public class WebController {
+public class AdminController {
     @Autowired
     private UserDao userDao;
 
-    @RequestMapping("/logging")
+    @RequestMapping(value ="/admin/logging")
     public String login(HttpServletRequest request, Model model, HttpSession session) throws Exception {
         if (request.getMethod().equals("GET")) {
             // 处理GET请求的逻辑
+            return "login";
         } else if (request.getMethod().equals("POST")) {
             // 处理POST请求的逻辑
             String username = request.getParameter("username");
@@ -57,13 +57,10 @@ public class WebController {
             }
             return "login";
         }
-
-        // 公共逻辑（可以共享GET和POST请求的处理逻辑）
-
-        return "login"; // 重定向到仪表板页面
+        return "login";
     }
 
-    @RequestMapping("/index")
+    @RequestMapping({"/admin/index","/"})
     public String index(HttpServletRequest request, Model model, HttpSession session) {
         return "index";
     }
@@ -82,7 +79,7 @@ public class WebController {
 
     }
 
-    @GetMapping("/files")
+    @GetMapping("/admin/files")
     public String getFiles(HttpServletRequest request, Model model, @RequestParam(name = "file_id") String fileId) throws FileNotFoundException {
         // 工具服务器文件统一在这管理
         String fileName = genFileName(fileId);
@@ -102,7 +99,7 @@ public class WebController {
         return "files";
     }
 
-    @PostMapping("/files")
+    @PostMapping("/admin/files")
     public String postFile(HttpServletRequest request, @RequestParam("file") MultipartFile file, Model model) throws Exception {
         if (!file.isEmpty()) {
             try {
@@ -138,19 +135,19 @@ public class WebController {
         }
     }
 
-    @RequestMapping("upload_file")
+    @RequestMapping("/admin/upload_file")
     public String uploadFile(){
 
         return "upload";
     }
 
-    @GetMapping("/file_suc")
+    @GetMapping("/admin/file_suc")
     public String getSuc(@RequestParam String message,HttpServletRequest request, Model model, HttpSession session) {
         model.addAttribute("msg",message);
         return "upload_suc";
     }
 
-    @GetMapping("/directories")
+    @GetMapping("/admin/directories")
     public String getDirectory(HttpServletRequest request, Model model){
         String filePath = genFileName("");
         File file = new File(filePath);
@@ -180,7 +177,7 @@ public class WebController {
         }
     }
 
-    @GetMapping("/files/download")
+    @GetMapping("/admin/files/download")
     public ResponseEntity<Resource> downLoadFile(HttpServletRequest request, Model model, HttpSession session,
                                                  @RequestParam(name = "file_path", defaultValue = "0") String filePath)
             throws IOException, IllegalRequestException {
