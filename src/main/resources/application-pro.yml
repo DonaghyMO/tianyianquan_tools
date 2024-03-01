@@ -34,3 +34,5 @@ server:
 logging:
   pattern:
     console: "%d{MM-yyyy-dd HH:mm:ss} [%thread] %logger{20} %-5level ===> %msg%n"
+  file:
+    path: /var/log/tianyianquan/tianyianquan_web.out.log

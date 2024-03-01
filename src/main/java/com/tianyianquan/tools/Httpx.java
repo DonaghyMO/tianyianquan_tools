@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Httpx extends Tool{
     private static final Logger logger = Logger.getLogger(Httpx.class);
@@ -24,7 +25,7 @@ public class Httpx extends Tool{
     @Override
     public Map<String, Object> execute() throws IOException{
         Map<String, Object> res = new HashMap<>();
-        if(getData().get("action").equals("is_http_alive")){
+        if(Objects.equals(getData().get("action"), "is_http_alive")){
 
             try{
                 String workDir = this.getWorkDir(getData().get("only_id"));
@@ -47,9 +48,7 @@ public class Httpx extends Tool{
                     command = "bash /tianyianquan/scripts/is-http-alive.sh "+workDir+" "+getData().get("input_file");
                 }
 
-
                 // 拼接执行命令
-
                 logger.info("生成了shell命令:"+command);
                 res.put("command",command);
                 res.put("onlyId",getData().get("only_id"));
@@ -58,10 +57,6 @@ public class Httpx extends Tool{
             }catch (IOException e){
                 logger.error(e.toString());
             }
-
-
-
-
             return res;
         }
         else{

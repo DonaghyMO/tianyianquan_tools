@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice //这个类是集中处理所有 @Controller 发生的错误
 public class GlobalExceptionHandler {
-    private final Logger logger = Logger.getLogger(getClass());
+    private static final Logger logger = Logger.getLogger(GlobalExceptionHandler.class);
     @ResponseBody //对象写出为json
     @ExceptionHandler(Exception.class)
     public String handleException(Exception e){
         logger.error("出错："+e.toString());
         for (StackTraceElement stackTraceElement : e.getStackTrace()) {
             logger.error(stackTraceElement.toString());
+            logger.error(e.toString());
         }
         return "error tell mdy";
     }

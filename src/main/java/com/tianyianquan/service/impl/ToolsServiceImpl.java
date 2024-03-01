@@ -31,9 +31,10 @@ public class ToolsServiceImpl implements ToolsService {
 
         // 异步执行
         if (executor.getIsAsynchronous() == this.isAsynchoronous) {
+            // TODO:异步执行还需要改
             //创建线程池
             try {
-                logger.info("异步执行开始:"+executor.getCommand());
+                logger.info("异步执行开始:"+executor.getData().get("command"));
                 ExecutorService syncCall = SyncCall.getCaller();
                 syncCall.execute(() -> {
                     Map<String, Object> res;
@@ -51,47 +52,45 @@ public class ToolsServiceImpl implements ToolsService {
             } catch (NullPointerException e){
                 Logger LOGGER = LogManager.getLogger(ToolsServiceImpl.class);
                 LOGGER.info("hallo\n\n\n");
-                logger.error("异步执行失败"+executor.getCommand());
+                logger.error("异步执行失败"+executor.getData().get("command"));
                 return new ToolExecuteResult("异步执行失败",
-                        executor.getCommand(),
+                        executor.getData().get("command"),
                         ResultCode.SYNC_EXE_ERR.getCode(),
                         ResultCode.SYNC_EXE_ERR.getMessage());
             }
         }
         // 同步执行，soar前端会阻塞
         else{
-            logger.info("同步执行开始:"+executor.getCommand());
+            logger.info("同步执行开始:"+executor.getData().get("command"));
             Map<String, Object> res = tool.execute();
-            String data = (String)res.get("output");
-            // 执行httpx特殊处理
-            if(tool.getData().get("action").equals("is_http_alive")){
-                ExecuteDomain executeDomain;
-                String onlyId = (String)res.get("onlyId");
-                String command = (String)res.get("command");
-                long status = (long)res.get("code");
-                executeDomain = new ExecuteDomain(command,status,onlyId);
-                executeDao.saveWithOnlyId(executeDomain);
-                ExecuteDomain result = executeDao.getByOnlyId(onlyId);
-                while(result.getStatus()!=ResultCode.EXE_OK.getCode()){
-                    // 每20秒查一次执行结果，执行完后再返回
-                    Thread.sleep(1000*20);//休眠20秒
-                    result = executeDao.getByOnlyId(onlyId);
-                }
+
+            ExecuteDomain executeDomain;
+            String onlyId = (String)res.get("onlyId");
+            String command = (String)res.get("command");
+            long status = (long)res.get("code");
+
+            executeDomain = new ExecuteDomain(command,status,onlyId);
+            executeDao.saveWithOnlyId(executeDomain);
+            ExecuteDomain result = executeDao.getByOnlyId(onlyId);
+            while(result.getStatus()!=ResultCode.EXE_OK.getCode()&&result.getStatus()!=ResultCode.EXE_ERR.getCode()){
+                // 每20秒查一次执行结果，执行完后再返回
+                logger.info("命令"+tool.getData().get("command") +" onlyId: "+onlyId+"等待中");
+                Thread.sleep(1000*20);//休眠20秒
+                result = executeDao.getByOnlyId(onlyId);
+            }
+            if (result.getStatus()!= ResultCode.EXE_OK.getCode()){
+                logger.error("同步执行失败:"+executor.getData().get("command"));
                 return new ToolExecuteResult( (String)result.getData(),
                         result.getCommand(),
                         result.getStatus(),
-                        ResultCode.EXE_OK.getMessage());
+                        ResultCode.EXE_ERR.getMessage());
             }
+            return new ToolExecuteResult( (String)result.getData(),
+                    result.getCommand(),
+                    result.getStatus(),
+                    ResultCode.EXE_OK.getMessage());
 
 
-            if ((Long)res.get("code")!= ResultCode.EXE_OK.getCode()){
-                logger.error("同步执行失败:"+executor.getCommand()+(String)res.get("output"));
-            }
-            return new ToolExecuteResult(data,
-                    executor.getCommand(),
-                    ResultCode.EXE_OK.getCode(),
-                    ResultCode.EXE_OK.getMessage()
-                   );
         }
     }
 

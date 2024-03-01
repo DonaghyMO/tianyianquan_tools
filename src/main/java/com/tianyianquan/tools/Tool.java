@@ -1,5 +1,6 @@
 package com.tianyianquan.tools;
 
+import com.tianyianquan.common.api.ResultCode;
 import com.tianyianquan.dto.ToolExecuteParam;
 import com.tianyianquan.utils.ExecSysCommand;
 
@@ -11,6 +12,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +26,7 @@ public class Tool {
     public static final List<String> my_tools = Arrays.asList("nuclei","nmap","xray","afrog","POC-bomber","dirsearch");
 
     public Tool(ToolExecuteParam myExecutor){
-        this.command = myExecutor.getCommand();
+        this.command = myExecutor.getData().get("command");
         this.toolName = myExecutor.getTool();
         this.isAsynchronous = myExecutor.getIsAsynchronous();
         this.data = myExecutor.getData();
@@ -82,7 +84,12 @@ public class Tool {
     }
 
     public Map<String, Object> execute() throws IOException {
-        return ExecSysCommand.execute(getCommand());
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("command",this.getData().get("command"));
+        res.put("onlyId",this.getData().get("only_id"));
+        res.put("code", ResultCode.NOT_EXE.getCode());
+        return res;
     }
 
     public String getToolName() {

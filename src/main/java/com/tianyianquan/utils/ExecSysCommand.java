@@ -15,7 +15,7 @@ public class ExecSysCommand {
     public static Map<String,Object> execute(String command){
         Map<String, Object> res = new HashMap<>();
         try{
-            Process process = Runtime.getRuntime().exec(new String[]{"bash","-l","-c",command});
+            Process process = Runtime.getRuntime().exec(new String[]{"bash","-l","-c","whoami"});
             int exitCode = process.waitFor();
             //获取命令执行结果
             BufferedReader reader = new BufferedReader(exitCode==0?new InputStreamReader(process.getInputStream()):new InputStreamReader(process.getErrorStream()));
