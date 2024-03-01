@@ -9,6 +9,7 @@ import com.tianyianquan.tools.Tool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Objects;
 
 @RestController
@@ -32,7 +33,7 @@ public class ToolsController {
         return sb.toString();
     }
     @PostMapping("/{tool_name}")
-    public ToolExecuteResult postTool(@RequestBody ToolExecuteParam executeParam, @PathVariable("tool_name") String tool_name)throws ToolsNotFoundException {
+    public ToolExecuteResult postTool(@RequestBody ToolExecuteParam executeParam, @PathVariable("tool_name") String tool_name) throws ToolsNotFoundException, IOException, InterruptedException {
         if (!Objects.equals(tool_name, executeParam.getTool())){
             throw new ToolsNotFoundException("工具"+tool_name+"不存在!");
         }

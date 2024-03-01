@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ResultCode{
     SUCCESS(200, "操作成功"),
+
     FAILED(500, "操作失败"),
     VALIDATE_FAILED(404, "参数检验失败"),
     UNAUTHORIZED(401, "暂未登录或token已经过期"),
@@ -13,7 +14,10 @@ public enum ResultCode{
     SYNC_EXE_ERR(20061, "异步执行失败"),
     EXE_OK(20050,"同步执行成功"),
     EXE_ERR(20051,"同步执行失败"),
-    SAVE_OK(20011,"保存成功");
+    SAVE_OK(20011,"保存成功"),
+    NOT_EXE(20052,"还未执行"),
+    IN_EXE(20053,"正在执行中");
+
 
 
 

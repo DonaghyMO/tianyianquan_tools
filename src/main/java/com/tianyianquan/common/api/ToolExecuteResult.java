@@ -4,13 +4,15 @@ import lombok.Getter;
 
 @Getter
 public class ToolExecuteResult {
-    private final Object data;
+    private final String data;
     private final String msg;
     private final long code;
+    private final String status;
 
-    public ToolExecuteResult(Object data, String msg, long code) {
+    public ToolExecuteResult(String data, String msg, long code,String aStatus) {
         this.data = data;
         this.msg = msg;
         this.code = code;
+        this.status = aStatus;
     }
 }

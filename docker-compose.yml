@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-  tianyianquan_mysql:
-    container_name: tianyianquan_mysql
+  tianyi_mysql:
+    container_name: tianyi_mysql
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
     expose:
@@ -9,24 +9,25 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./init_sql:/docker-entrypoint-initdb.d
+      - ./docker/init_sql:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: "1998"
     restart: always
     networks:
       - test_network
   #SpringBoot项目服务
-  tianyianquan:
+  tianyi_web:
     working_dir: /tianyianquan
-    container_name: tianyianquan_web
+    container_name: tianyi_web
     #构建指定目录下的Dockerfile
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - .:/tianyianquan/
+      - ./docker:/tianyianquan/
+      - ./docker/logs:/var/log/tianyianquan
     depends_on:
-      - tianyianquan_mysql
+      - tianyi_mysql
     expose:
       - 8080
     ports:
