@@ -1,6 +1,6 @@
 package com.tianyianquan.tools;
 
-import com.tianyianquan.entity.MyExecutor;
+import com.tianyianquan.dto.ToolExecuteParam;
 
 public class Nmap extends Tool {
 
@@ -8,7 +8,7 @@ public class Nmap extends Tool {
     public String toString() {
         return "nmap";
     }
-    public Nmap(MyExecutor myExecutor) {
+    public Nmap(ToolExecuteParam myExecutor) {
         super(myExecutor);
     }
 }

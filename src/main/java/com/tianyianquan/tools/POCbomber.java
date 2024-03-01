@@ -1,8 +1,9 @@
 package com.tianyianquan.tools;
 
-import com.tianyianquan.bean.ExeSysResBean;
-import com.tianyianquan.entity.MyExecutor;
+import com.tianyianquan.dto.ToolExecuteParam;
 import com.tianyianquan.utils.ExecSysCommand;
+
+import java.util.Map;
 
 public class POCbomber extends Tool {
 
@@ -10,7 +11,7 @@ public class POCbomber extends Tool {
     public String toString() {
         return "POC-bomber";
     }
-    public POCbomber(MyExecutor myExecutor) {
+    public POCbomber(ToolExecuteParam myExecutor) {
         super(myExecutor);
     }
 
@@ -20,7 +21,7 @@ public class POCbomber extends Tool {
                 "command填入POC-bomber";
     }
     @Override
-    public ExeSysResBean execute(){
+    public Map<String, Object> execute(){
         String command = getCommand().replace(this.getToolName(),"python3 /python_tools/POC-bomber/pocbomber.py");
         return ExecSysCommand.execute(command);
     }

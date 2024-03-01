@@ -1,6 +1,6 @@
 package com.tianyianquan.tools;
 
-import com.tianyianquan.entity.MyExecutor;
+import com.tianyianquan.dto.ToolExecuteParam;
 
 public class Xray extends Tool{
 
@@ -9,7 +9,7 @@ public class Xray extends Tool{
         return "xray";
     }
 
-    public Xray(MyExecutor myExecutor) {
+    public Xray(ToolExecuteParam myExecutor) {
         super(myExecutor);
     }
 

@@ -1,7 +1,7 @@
 spring:
   datasource:
     name: test
-    url: jdbc:mysql://tianyianquan_mysql:3306/tianyianquan?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    url: jdbc:mysql://tianyi_mysql:3306/tianyianquan?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
     username: root
     password: 1998
     # 使用druid数据源
@@ -10,6 +10,10 @@ spring:
   config:
     activate:
       on-profile:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 server:
   port: 8080
   servlet:
@@ -17,8 +21,18 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+    session:
+      #      超时时间是一天
+      timeout: 86400
   ssl:
     key-store: classpath:keystore.p12
     key-store-password: hL7&n9oP2#sQ5$uI8%mZ
     key-store-type: PKCS12
     key-alias: tianyianquan
+
+
+logging:
+  pattern:
+    console: "%d{MM-yyyy-dd HH:mm:ss} [%thread] %logger{20} %-5level ===> %msg%n"
+  file:
+    path: /var/log/tianyianquan/tianyianquan_web.out.log

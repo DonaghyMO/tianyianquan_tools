@@ -3,11 +3,14 @@ logs
 target/
 data/
 python_projects/
-scripts/
 software/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+docker/scripts
+docker/files
+docker/app.jar
+
 
 ### STS ###
 .apt_generated

@@ -1,27 +1,37 @@
 package com.tianyianquan.tools;
 
-import com.tianyianquan.bean.ExeSysResBean;
-import com.tianyianquan.entity.MyExecutor;
+import com.tianyianquan.common.api.ResultCode;
+import com.tianyianquan.dto.ToolExecuteParam;
 import com.tianyianquan.utils.ExecSysCommand;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Tool {
     private final String toolName;
     private final String command;
-    private final Integer is_asynchronous;
+    private final Integer isAsynchronous;
+
+    private Map<String,String> data;
 
     public static final List<String> my_tools = Arrays.asList("nuclei","nmap","xray","afrog","POC-bomber","dirsearch");
 
-    public Tool(MyExecutor myExecutor){
-        this.command = myExecutor.getCommand();
+    public Tool(ToolExecuteParam myExecutor){
+        this.command = myExecutor.getData().get("command");
         this.toolName = myExecutor.getTool();
-        this.is_asynchronous = myExecutor.getIs_asynchronous();
+        this.isAsynchronous = myExecutor.getIsAsynchronous();
+        this.data = myExecutor.getData();
     }
-
-    public static Tool getTools(MyExecutor executor){
+    public static Tool getTools(ToolExecuteParam executor){
         Tool tool;
         switch (executor.getTool()){
             case "nuclei":
@@ -42,6 +52,9 @@ public class Tool {
             case "dirsearch":
                 tool = new Dirsearch(executor);
                 break;
+            case "httpx":
+                tool = new Httpx(executor);
+                break;
             default:
                 tool = new Tool(executor);
                 break;
@@ -49,8 +62,34 @@ public class Tool {
         return tool;
     }
 
-    public ExeSysResBean execute(){
-        return ExecSysCommand.execute(getCommand());
+    public String getWorkDir(String onlyId) throws IOException {
+        // 创建今天的文件夹
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String dirName = currentTime.format(formatter);
+        File toDayDir = new File("/tianyianquan/files",dirName);
+        Path dirPath = Paths.get(toDayDir.getAbsolutePath());
+        if(!Files.exists(dirPath)){
+            Files.createDirectories(dirPath);
+        }
+        // 用onlyId创建文件夹
+        File onlyIdDir = new File(dirPath.toFile().getAbsolutePath(),onlyId);
+        Path onlyIdDirPath = Paths.get(onlyIdDir.getAbsolutePath());
+        if(Files.exists(onlyIdDirPath)){
+            Files.delete(onlyIdDirPath);
+        }
+        Files.createDirectories(onlyIdDirPath);
+
+        return onlyIdDirPath.toFile().getAbsolutePath();
+    }
+
+    public Map<String, Object> execute() throws IOException {
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("command",this.getData().get("command"));
+        res.put("onlyId",this.getData().get("only_id"));
+        res.put("code", ResultCode.NOT_EXE.getCode());
+        return res;
     }
 
     public String getToolName() {
@@ -61,8 +100,11 @@ public class Tool {
         return command;
     }
 
-    public Integer getIs_asynchronous() {
-        return is_asynchronous;
+    public Integer getIsAsynchronous() {
+        return isAsynchronous;
     }
 
+    public Map<String, String> getData() {
+        return data;
+    }
 }
