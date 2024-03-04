@@ -76,15 +76,15 @@ echo "alive HTTP number: $(wc -l < "$http_output_file")"
 # 同时输出到终端
 echo "raw httpx:"
 grep -P '^(https?://[^ \[]+)(?!.*\[(cloudfront|cloudflare|google|incapsula)\])' raw_httpx.txt
-
+echo "\n\n"
 echo "http output:"
 grep -P '^http://' "$output_file"&
 wait
-
+echo "\n\n"
 echo "https output:"
 grep -P '^https://' "$output_file"&
 wait
-
+echo "\n\naquatone:"
 # aquatone相关
 cat "$http_output_file" | /root/go/bin/aquatone -out "./aquatone/" -threads 20 -silent -full-page -screenshot-timeout 50000 -chrome-path "/usr/bin/chromium-browser"
 #echo "Aquatone screenshots process completed"
